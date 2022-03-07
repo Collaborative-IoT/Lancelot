@@ -156,8 +156,8 @@ export const startRabbit = async (handler: HandlerMap) => {
   const receiveQueue = "voice_server_consume" ;
   console.log(sendQueue, receiveQueue);
   await Promise.all([
-    channel.assertQueue(receiveQueue),
-    channel.assertQueue(sendQueue),
+    channel.assertQueue(receiveQueue,{durable:false}),
+    channel.assertQueue(sendQueue, {durable:false}),
   ]);
   send = <Key extends keyof OutgoingMessageDataMap>(
     obj: OutgoingMessage<Key>
@@ -173,7 +173,9 @@ export const startRabbit = async (handler: HandlerMap) => {
         let data: IncomingChannelMessageData<any> | undefined;
         try {
           data = JSON.parse(m);
-        } catch {}
+        } catch (e){
+          console.log(e);
+        }
         // console.log(data.op);
         if (data && data.op && data.op in handler) {
           const { d: handlerData, op: operation, uid } = data;
