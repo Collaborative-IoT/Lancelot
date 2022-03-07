@@ -1,6 +1,7 @@
 import "dotenv/config";
 import debugModule from "debug";
-import { Router, Worker } from "mediasoup/lib/types";
+import { Router, Worker } from "mediasoup/node/lib/types";
+;
 import * as Sentry from "@sentry/node";
 import { MyRooms } from "./MyRoomState";
 import { closePeer } from "./utils/closePeer";
@@ -31,6 +32,7 @@ export async function main() {
   try {
     workers = await startMediasoup();
   } catch (err) {
+    console.log("issue starting workers")
     console.log(err);
     throw err;
   }

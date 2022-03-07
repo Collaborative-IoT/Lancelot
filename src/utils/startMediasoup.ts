@@ -1,5 +1,5 @@
 import * as mediasoup from "mediasoup";
-import { Router, Worker } from "mediasoup/lib/types";
+import { Router, Worker } from "mediasoup/node/lib/types";
 import os from "os";
 import { config } from "../config";
 

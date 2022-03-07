@@ -1,5 +1,5 @@
 import debugModule from "debug";
-import { Router, WebRtcTransport } from "mediasoup/lib/types";
+import { Router, WebRtcTransport } from "mediasoup/node/lib/types";
 import { VoiceSendDirection } from "src/types";
 import { config } from "../config";
 

@@ -1,4 +1,5 @@
-import { Consumer, Producer, Transport } from "mediasoup/lib/types";
+import { Consumer, Producer, Transport } from "mediasoup/node/lib/types";
+;
 
 export type MyPeer = {
   sendTransport: Transport | null;

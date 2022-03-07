@@ -1,4 +1,5 @@
-import { Router, Worker } from "mediasoup/lib/types";
+import { Router, Worker } from "mediasoup/node/lib/types";
+;
 import { MyPeer } from "./MyPeer";
 
 export type Then<T> = T extends PromiseLike<infer U> ? U : T;

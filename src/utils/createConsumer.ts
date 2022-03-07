@@ -5,7 +5,7 @@ import {
   RtpCapabilities,
   RtpParameters,
   Transport,
-} from "mediasoup/lib/types";
+} from "mediasoup/node/lib/types";
 import { MyPeer } from "../MyPeer";
 
 export const createConsumer = async (

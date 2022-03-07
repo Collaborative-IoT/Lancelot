@@ -2,7 +2,8 @@ import {
   RtpCodecCapability,
   TransportListenIp,
   WorkerLogTag,
-} from "mediasoup/lib/types";
+} from "mediasoup/node/lib/types";
+;
 
 export const config = {
   // http server ip, port, and peer timeout constant

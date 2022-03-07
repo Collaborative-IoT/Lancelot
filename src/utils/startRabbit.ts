@@ -5,7 +5,7 @@ import {
   MediaKind,
   RtpCapabilities,
   RtpParameters,
-} from "mediasoup/lib/types";
+} from "mediasoup/node/lib/types";
 import { VoiceSendDirection } from "src/types";
 import { TransportOptions } from "./createTransport";
 import { Consumer } from "./createConsumer";
@@ -140,27 +140,24 @@ export const startRabbit = async (handler: HandlerMap) => {
   );
   let conn: Connection;
   try {
-    conn = await amqp.connect(process.env.RABBITMQ_URL || "amqp://localhost");
+    conn = await amqp.connect(process.env.AMQP_ADDR || "amqp://guest:guest@localhost:5672");
   } catch (err) {
     console.error("Unable to connect to RabbitMQ: ", err);
     setTimeout(async () => await startRabbit(handler), retryInterval);
     return;
   }
-  const id = process.env.QUEUE_ID || "";
-  console.log("rabbit connected " + id);
+  console.log("rabbit connected ");
   conn.on("close", async function (err: Error) {
     console.error("Rabbit connection closed with error: ", err);
     setTimeout(async () => await startRabbit(handler), retryInterval);
   });
   const channel = await conn.createChannel();
-  const sendQueue = "kousa_queue" + id;
-  const onlineQueue = "kousa_online_queue" + id;
-  const receiveQueue = "shawarma_queue" + id;
-  console.log(sendQueue, onlineQueue, receiveQueue);
+  const sendQueue = "voice_server_publish";
+  const receiveQueue = "voice_server_consume" ;
+  console.log(sendQueue, receiveQueue);
   await Promise.all([
     channel.assertQueue(receiveQueue),
     channel.assertQueue(sendQueue),
-    channel.assertQueue(onlineQueue),
   ]);
   send = <Key extends keyof OutgoingMessageDataMap>(
     obj: OutgoingMessage<Key>
@@ -204,9 +201,5 @@ export const startRabbit = async (handler: HandlerMap) => {
       }
     },
     { noAck: true }
-  );
-  channel.sendToQueue(
-    onlineQueue,
-    Buffer.from(JSON.stringify({ op: "online" }))
   );
 };
